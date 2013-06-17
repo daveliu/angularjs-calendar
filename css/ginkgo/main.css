@@ -1,0 +1,110 @@
+#external-events, #members {
+margin-top:20px;
+width: 150px;
+padding: 0 10px;
+border: 1px solid #ccc;
+background: #eee;
+text-align: left;
+}
+	
+#external-events h4, #members h4 {
+font-size: 16px;
+margin-top: 0;
+padding-top: 1em;
+}
+
+#external-events .external-event, #members .member { /* try to mimick the look of a real event */
+margin: 10px 0;
+padding: 2px 4px;
+background: #3366CC;
+color: #fff;
+font-size: .85em;
+cursor: pointer;
+z-index:1000;
+}
+#external-events .external-event.dragged-true{
+  background:#333;
+  cursor:default;
+}
+#members .member{
+  background: #650606;  
+}
+
+.month-row{
+  position:relative;
+  z-index:100;
+}
+
+div.days {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  min-height:100px;
+}
+
+div.day {
+display: table-cell;
+overflow: hidden;
+/*width: 3.3%;*/
+border-right: 1px solid #dcd9d3;
+border-top: 1px solid #dcd9d3;
+margin: 0;
+padding: 0 0 10px 0;
+line-height: normal;
+}
+
+div.days-of-month {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+div.day-header {
+display: table-cell;
+overflow: hidden;
+width: 3.3%;
+margin: 0;
+padding: 0 0 10px 0;
+line-height: normal;
+}
+
+div.events.holdable {
+position: absolute;
+height: 0;
+width:100%;
+}
+div.events.holdable div.event-row {
+height: 0;
+width: 100%;
+float: left;
+clear: left;
+}
+div.events.holdable div.spacer {
+height: 25px;
+width: 0;
+float: left;
+clear: left;
+}
+div.events.holdable div.event{
+  position: absolute;  
+}
+div.events.holdable div.event.width_2 {
+width: 18.57143%;
+}
+div.events.holdable div.event.slot_3 {
+left: 71.42857%;
+}
+div.events.holdable div.event.slot_2 {
+left: 31.42857%;
+}
+div.events.holdable div.event.slot_1 {
+left: 11.42857%;
+}
+
+div.events.holdable span.event {
+color: #fff;
+}
+
+.ui-state-highlight{
+  background-color:#FEFAE2;
+}
