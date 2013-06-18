@@ -45,13 +45,12 @@ var CalendarCtrl = function ($scope, events) {
   }  
   
   var totalWidth =  parseInt($('#calendar').css('width'));  
-  var gridWidth = totalWidth / totalDates;
+  $scope.gridWidth = totalWidth / totalDates;
 
   $scope.calculateHoverIndex =  function(ui){
-    var startHoverIndex  =  Math.round((ui.offset.left - $('#calendar').offset().left) / gridWidth) + 1 ;
-    var ownerWidth =  parseInt($(ui.helper).css('width'));  
-
-    var widthCount =  Math.round(ownerWidth /  gridWidth) + 1 ;    
+    var startHoverIndex  =  Math.round(($(ui).offset().left - $('#calendar').offset().left) / $scope.gridWidth) + 1 ;
+    var ownerWidth =  parseInt($(ui).css('width'));  
+    var widthCount =  Math.round(ownerWidth /  $scope.gridWidth) + 1 ;    
     var endHoverIndex = startHoverIndex + widthCount - 1;
   
     return {start: startHoverIndex, end: endHoverIndex};
@@ -83,7 +82,11 @@ var CalendarCtrl = function ($scope, events) {
   $scope.addEvent = function (event) {
     var id = events.save({text: event.text, startTime: event.startTime, endTime: event.endTime});
   }
-  
+    
+  $scope.updateEvent = function (event) {
+    console.log(event)
+    var id = events.update({id:event.id, text:event.text, startTime: event.startTime, endTime: event.endTime});
+  }
 
 }
 

@@ -69,6 +69,25 @@ angular.module('ginkgo.services', []).
 
             return event.id;
         };
+        self.update = function (event) {
+          console.log(event)
+            for (var i = 0; i < self.events.length; i++) {
+                if (self.events[i].id == event.id) {
+                    if (event.text) {
+                        self.events[i].text = event.text;
+                    }
+                    if (event.startTime) {
+                        self.events[i].startTime = event.startTime;
+                    }
+                    if (event.endTime) {
+                        self.events[i].endTime = event.endTime;
+                    }
+
+                }
+                ;
+            }
+            return event.id;
+        };
         self.get = function (id) {
             for (var i = 0; i < self.events.length; i++) {
                 if (self.events[i].id == id)
