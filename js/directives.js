@@ -23,16 +23,68 @@ angular.module('ginkgo.directives', []).
           
       element.droppable({
         drop: function(event, ui ){
+          $('.ui-state-highlight').removeClass('ui-state-highlight');          
+                      
           var text = $(ui.draggable).text();
           var allDays = $(this).find('.day') ;                            
           var range = scope.calculateHoverIndex(ui.helper);
-          var hoverColumns = $(allDays).slice(range.start, range.end + 5);          
+          
+          if($(ui.draggable).hasClass('event')){
+            // drag from inner calendar
+            var hoverColumns = $(allDays).slice(range.start, range.end);          
+            if($(ui.draggable).parents('.timeFrames')[0] == undefined){
+              //drag event
+              scope.$apply(function(){
+                scope.updateEvent({id: $(ui.helper).data('event-id'), text: $(ui.helper).text(), startTime: $(hoverColumns).first().data('date'), 
+                  endTime: $(hoverColumns).last().data('date')})
+                scope.getEventLength();                
+              });  
+            }else{
+              //drag timeFrame
+              scope.$apply(function(){
+                scope.updateTimeFrame({id: $(ui.helper).data('timeframe-id'), name: $(ui.helper).text(), 
+                    eventId: $(ui.helper).data('event-id'),
+                    startTime: $(hoverColumns).first().data('date'), 
+                    endTime: $(hoverColumns).last().data('date')})
+                scope.getEventLength();                
+              });  
+            }
+          }else{
+            // drag from outer calendar
+            var hoverColumns = $(allDays).slice(range.start, range.end + 5);// + 5 is for make the length longer          
+                        
+            if($(ui.draggable).data('tag-id') != undefined){
+              //drag tag
+              scope.$apply(function(){
+                scope.addEvent({text: text, startTime: $(hoverColumns).first().data('date'), 
+                  endTime: $(hoverColumns).last().data('date')})
+                scope.getEventLength();                
+              });          
+            }else{
+              //drag memeber
+              var rowIndex = $('.month-row').index($(this).parents(".month-row"));
+              if(scope.events[rowIndex] != undefined){
+                //this row has event       
+                if(scope.hasTimeFrame(scope.events[rowIndex], $(ui.draggable).data('member-id'))){
+                  alert('this member already in');
+                  return false;
+                }         
+                scope.$apply(function(){
+                  scope.addTimeFrame({name: text, 
+                                    startTime: $(hoverColumns).first().data('date'), 
+                                    endTime: $(hoverColumns).last().data('date'),
+                                    eventId: scope.events[rowIndex].id,
+                                    memberId: $(ui.draggable).data('member-id')
+                                  })
+                  scope.getEventLength();                
+                });                 
+              }else{
+                alert('please add tag first');
+                return false;
+              }                       
+            }            
+          }
                 
-          scope.$apply(function(){
-            scope.addEvent({text: text, startTime: $(hoverColumns).first().data('date'), 
-              endTime: $(hoverColumns).last().data('date')})
-            scope.getEventLength();                
-          });          
         }
       });       
     };
@@ -46,7 +98,6 @@ angular.module('ginkgo.directives', []).
         },
         stop: function(event, ui) {
           var range = scope.calculateHoverIndex(ui.helper);
-          console.log(range)
           var allDays = $(this).parents('.month-row').find('.days .day') ;        
           var hoverColumns = $(allDays).slice(range.start, range.end);
           

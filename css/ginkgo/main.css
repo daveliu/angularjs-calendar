@@ -30,6 +30,10 @@ z-index:1000;
   background: #650606;  
 }
 
+
+#calendar{
+  background:#fff;
+}
 .month-row{
   position:relative;
   z-index:100;
@@ -53,6 +57,19 @@ padding: 0 0 10px 0;
 line-height: normal;
 }
 
+div.day div.event-row {
+position: relative;
+top: auto;
+height: auto;
+zoom: 1;
+}
+div.day div.event-row div.spacer {
+height: 35px;
+width: 0;
+float: left;
+clear: left;
+}
+
 div.days-of-month {
   display: table;
   table-layout: fixed;
@@ -60,6 +77,7 @@ div.days-of-month {
 }
 
 div.day-header {
+  text-align:right;
 display: table-cell;
 overflow: hidden;
 width: 3.3%;

@@ -9,26 +9,20 @@
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="css/bootstrap.css">    
-    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css">    
     
     <link rel="stylesheet" href="css/ginkgo/main.css">    
+    <link rel="stylesheet" href="css/ginkgo/layout.css">        
     
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
-    improve your experience.</p>
-<![endif]-->
-
-<div class="container" ng-controller="CalendarCtrl">
-  <div class="row">
+  
+  <div id="wrap" ng-controller="CalendarCtrl">
     
-    <div class="span3">
+    <div id="sidebar">
       <div id="external-events" ng-controller="TagCtrl">
         <h4>Draggable Tags</h4>
-        <div ginkgo-draggable="{{!tag.done}}" class="external-event dragged-{{tag.done}}" ng-repeat="tag in tags">{{tag.text}}</div>
+        <div ginkgo-draggable="{{!tag.done}}" class="external-event dragged-{{tag.done}}" ng-repeat="tag in tags" data-tag-id="{{tag.id}}">{{tag.text}}</div>
         <form ng-submit="addTag()">
           <input type="text" ng-model="tagText"  size="10" class="span2"
                  placeholder="add new tag here">
@@ -36,19 +30,16 @@
         </form>
       </div>
       
-      <div id="members">
+      <div id="members" ng-controller="MemberCtrl">
         <h4>Draggable Members</h4>
-        <div ginkgo-draggable="true" class="member">文举</div>
-        <div ginkgo-draggable="true" class="member">张翼</div>
-        <div ginkgo-draggable="true" class="member">贾雨</div>
-        <div ginkgo-draggable="true" class="member">彬彬</div>
+        <div ng-repeat="member in members" ginkgo-draggable="true" class="member" data-member-id="{{member.id}}">{{member.text}}</div>
       </div>
     </div>
     
-    <div class="span9">
+    <div id="main">
       <div id='calendar'>
               
-        <div class="month-row no-events" ng-repeat="event in events">
+        <div class="month-row" ng-repeat="event in events">
                                   
           <div class="events holdable" style="width:100%;">  
             
@@ -64,11 +55,11 @@
                 </div>
                 <div class="spacer"></div>
                 
-                <div class="members" ng-repeat="member in event.members">
+                <div class="timeFrames" ng-repeat="timeFrame in event.timeFrames">
                   <div  class="event-row tag">
-                    <div  class="event  width_2 wraps_next" style="background-color: #650606;left:{{member.left}};width:{{member.width}};" ginkgo-draggable="true" ginkgo-resizeable="true"  data-member-id="{{member.id}}">
+                    <div  class="event  width_2 wraps_next" style="background-color: #650606;left:{{timeFrame.left}};width:{{timeFrame.width}};" ginkgo-draggable="true" ginkgo-resizeable="true"  data-timeframe-id="{{timeFrame.id}}" data-event-id="{{event.id}}">
                       <span class="event">
-                        <span class="title">{{ member.name }}</span>
+                        <span class="title">{{ timeFrame.name }}</span>
                       </span>
                     </div>                          
                   </div>
@@ -81,13 +72,20 @@
           </div> 
                         
           <div class="days" ginkgo-droppable="true">            
-            <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}"></div>
+            <div class="dates" style="display:table-row;">
+              <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+                <div class="event-row" style="width:100%;">              
+                  <div class="spacer" ng-repeat="timeFrame in event.timeFrames"></div>         
+                </div>
+              </div>
+            </div>
           </div>   
         </div>
         
         <div class="month-row no-events" ng-repeat="row in rows">
           <div class="days" ginkgo-droppable="true">            
-            <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}"></div>
+            <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+            </div>
           </div>   
         </div>          
         
@@ -126,28 +124,9 @@
         </div>
         
       </div>      
+      
     </div>
-    
   </div>
-</div>
-
-<div id="tag-clone" class="event-row tag" style="display:none;">
-  <div  class="event  width_2 wraps_next" style="background-color: #3366CC;">
-    <span class="event">
-      <span class="title"></span>
-    </span>
-  </div>      
-</div>
-
-<div id="member-clone" class="event-row member" style="display:none;">
-  <div  class="event  width_2 wraps_next" style="background-color: #650606;">
-    <span class="event">
-      <span class="title"></span>
-    </span>
-  </div>      
-</div>
-
-
 
 
 <!-- In production use:

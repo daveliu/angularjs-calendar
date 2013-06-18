@@ -51,7 +51,7 @@ var CalendarCtrl = function ($scope, events) {
     var startHoverIndex  =  Math.round(($(ui).offset().left - $('#calendar').offset().left) / $scope.gridWidth) + 1 ;
     var ownerWidth =  parseInt($(ui).css('width'));  
     var widthCount =  Math.round(ownerWidth /  $scope.gridWidth) + 1 ;    
-    var endHoverIndex = startHoverIndex + widthCount - 1;
+    var endHoverIndex = startHoverIndex + widthCount ;
   
     return {start: startHoverIndex, end: endHoverIndex};
   }
@@ -65,18 +65,18 @@ var CalendarCtrl = function ($scope, events) {
         var eventStyle = $scope.getEventStyle($scope.events[i]);
         $scope.events[i].left = eventStyle.left;
         $scope.events[i].width = eventStyle.width;     
-        
-        if(event.members != undefined){
-          for (var j = 0; j < event.members.length; j++) {
-              var membertyle = $scope.getEventStyle(event.members[j]);  
-              $scope.events[i].members[j].left = membertyle.left;
-              $scope.events[i].members[j].width = membertyle.width;                     
+
+        if(event.timeFrames != undefined){
+          for (var j = 0; j < event.timeFrames.length; j++) {
+              var timeFrameStyle = $scope.getEventStyle(event.timeFrames[j]);  
+              $scope.events[i].timeFrames[j].left = timeFrameStyle.left;
+              $scope.events[i].timeFrames[j].width = timeFrameStyle.width;                     
           }             
         }
         
     }
   }     
-  
+
   $scope.getEventLength();  
   
   $scope.addEvent = function (event) {
@@ -84,10 +84,28 @@ var CalendarCtrl = function ($scope, events) {
   }
     
   $scope.updateEvent = function (event) {
-    console.log(event)
     var id = events.update({id:event.id, text:event.text, startTime: event.startTime, endTime: event.endTime});
   }
-
+  
+  $scope.addTimeFrame = function (timeFrame) {
+    events.saveTimeFrame(timeFrame)
+  }
+    
+  $scope.updateTimeFrame = function (timeFrame) {
+    events.updateTimeFrame(timeFrame)
+  }
+  
+  $scope.hasTimeFrame = function(event, memberId){
+    if(event.timeFrames != undefined){
+      for(var i = 0; i < event.timeFrames.length; i++){
+        var timeFrame = event.timeFrames[i];
+        if (timeFrame.memberId == memberId) {
+          return true;          
+        }
+      }
+    }
+    return false;
+  }
 }
 
 
@@ -99,6 +117,13 @@ var TagCtrl = function ($scope, tags) {
     $scope.tagText = '';    
   }
 }
+
+
+var MemberCtrl = function ($scope, members) {
+  $scope.members = members.members;
+    
+}
+
 
 
 
