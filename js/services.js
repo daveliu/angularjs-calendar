@@ -107,13 +107,15 @@ angular.module('ginkgo.services', []).
         var self = this;        
 
         self.save = function (event) {
-            if (!event.hasOwnProperty('id')) {
-                var highest = 1;
-                for (var i = 0; i < self.events.length; i++) {
-                    if (self.events[i].id > highest) highest = self.events[i].id;
-                }
-                event.id = ++highest;
+                      
+            var highest = 1;
+            for (var i = 0; i < self.events.length; i++) {
+                if (self.events[i].id > highest) highest = self.events[i].id;
+    
+                //refresh the order                
+                if (self.events[i].order >= event.order) self.events[i].order += 1;                
             }
+            event.id = ++highest;
             self.events.push(event);
 
             return event.id;
@@ -121,11 +123,16 @@ angular.module('ginkgo.services', []).
         
         self.update = function (event) {
             for (var i = 0; i < self.events.length; i++) {
-                if (self.events[i].id == event.id) {
+                if (self.events[i].id == event.id) {                  
                     self.events[i].text = event.text;
                     self.events[i].startTime = event.startTime;
                     self.events[i].endTime = event.endTime;
-                    self.events[i].timeFrames = event.timeFrames;
+                    if (event.order != undefined) {
+                      self.events[i].order = event.order;
+                    }                      
+                    if (event.timeFrames != undefined) {
+                      self.events[i].timeFrames = event.timeFrames;                      
+                    }
                 };
             }
             return event.id;
@@ -174,6 +181,19 @@ angular.module('ginkgo.services', []).
                     return self.events[i];
             }
         };
+        self.destroy = function (event) {
+          var events = self.events;
+          for (var i = 0; i < events.length; i++) {  
+            if (events[i].id == event.id) {
+                events.splice(i, 1);
+            }
+          }  
+          //refresh the order
+          for (var i = 0; i < events.length; i++) {                            
+            if (events[i].order >= event.order) events[i].order -= 1;                      
+          }  
+          self.events = events;
+        };
 
 
         function createPersistentProperty(localName, storageName, Type) {
@@ -197,8 +217,8 @@ angular.module('ginkgo.services', []).
         createPersistentProperty('events', 'ginkgoEvents', Array);
 
         if (self.events.length === 0) {
-            self.save({id:1, text:'设计', startTime: "2013-6-2", endTime: "2013-6-7" });
-            self.save({id:2, text:'开发', startTime: "2013-6-8", endTime: "2013-6-28"});            
+            self.save({id:1, text:'设计', startTime: "2013-6-2", endTime: "2013-6-7", tagId: 1, order: 1 });
+            self.save({id:2, text:'开发', startTime: "2013-6-8", endTime: "2013-6-28", tagId: 2, order: 2});            
         }
     });
 

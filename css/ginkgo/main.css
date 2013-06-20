@@ -36,7 +36,7 @@ z-index:1000;
 }
 .month-row{
   position:relative;
-  z-index:100;
+/*  z-index:100;*/
 }
 
 div.days {
@@ -49,9 +49,8 @@ div.days {
 div.day {
 display: table-cell;
 overflow: hidden;
-/*width: 3.3%;*/
-border-right: 1px solid #dcd9d3;
-border-top: 1px solid #dcd9d3;
+border-right: 1px dotted #dcd9d3;
+border-top: 1px dotted #dcd9d3;
 margin: 0;
 padding: 0 0 10px 0;
 line-height: normal;
@@ -105,6 +104,8 @@ clear: left;
 }
 div.events.holdable div.event{
   position: absolute;  
+  cursor: pointer;
+  padding-left: 5px;
 }
 div.events.holdable div.event.width_2 {
 width: 18.57143%;
@@ -125,4 +126,55 @@ color: #fff;
 
 .ui-state-highlight{
   background-color:#FEFAE2;
+}
+
+
+#calendar_item_editor_singleton {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  display:none;
+}
+.balloon {
+  white-space: normal;
+  position: absolute;
+  top: -30px;
+  background: #fff;
+  padding: 8px 12px 8px;
+  width: 220px;
+  z-index: 1000;
+  border: 1px solid #bbb;
+  font-size: 13px;
+  line-height: 15px;
+  vertical-align: baseline;
+  border-radius: 6px;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.3);
+}
+.balloon.right_side .arrow {
+border-color: transparent #ccc transparent transparent;
+left: -24px;
+}
+.balloon .arrow {
+position: absolute;
+top: 24px;
+}
+.arrow {
+font-size: 0;
+line-height: 0;
+width: 0;
+border-style: solid;
+border-width: 12px;
+}
+.popover-title{
+  color: #000;
+}
+.popover-content .form-horizontal .control-label{
+  width: auto;
+  padding-top:0px;
+}
+.popover-content .form-horizontal .controls{
+  margin-left: 50px;
+}
+.popover-content .form-horizontal .controls input{
+  width:160px;
 }

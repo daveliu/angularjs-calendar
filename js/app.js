@@ -32,9 +32,13 @@ var CalendarCtrl = function ($scope, events) {
   $scope.days = $scope.getDadysInMonth(new Date(2013, 6, 1));
   
   $scope.rows = [0,1,2];  
-  
+    
   $scope.events = events.events;
     
+  $scope.$watch('events', function(newVal) {
+    $scope.getEventLength();        
+   }, true);
+      
   var totalDates = $scope.getNumberOfDaysInMonth(new Date(2013, 6, 1));
   var dateWidth = (1 / totalDates) * 100;
   
@@ -56,7 +60,6 @@ var CalendarCtrl = function ($scope, events) {
     return {start: startHoverIndex, end: endHoverIndex};
   }
     
-    
   $scope.getEventLength = function(){
     
     for (var i = 0; i < $scope.events.length; i++) {
@@ -74,17 +77,20 @@ var CalendarCtrl = function ($scope, events) {
           }             
         }
         
-    }
+    }  
   }     
-
-  $scope.getEventLength();  
   
   $scope.addEvent = function (event) {
-    var id = events.save({text: event.text, startTime: event.startTime, endTime: event.endTime});
+    var id = events.save(event);
+  }
+  
+  $scope.destroyEvent = function (event) {
+    events.destroy(event);
   }
     
   $scope.updateEvent = function (event) {
-    var id = events.update({id:event.id, text:event.text, startTime: event.startTime, endTime: event.endTime});
+    console.log(event)
+    var id = events.update(event);
   }
   
   $scope.addTimeFrame = function (timeFrame) {
@@ -95,16 +101,20 @@ var CalendarCtrl = function ($scope, events) {
     events.updateTimeFrame(timeFrame)
   }
   
-  $scope.hasTimeFrame = function(event, memberId){
-    if(event.timeFrames != undefined){
-      for(var i = 0; i < event.timeFrames.length; i++){
-        var timeFrame = event.timeFrames[i];
-        if (timeFrame.memberId == memberId) {
-          return true;          
-        }
-      }
-    }
-    return false;
+  $scope.hasTimeFrame = function(event, memberId){    
+    if(_.findWhere(event.timeFrames, {memberId: memberId}) == undefined){
+      return false;      
+    }else{
+      return true
+    }    
+  }
+  
+  $scope.hasEventByTagId = function(tagId){
+    if(_.findWhere($scope.events, {tagId: tagId}) == undefined){
+      return false;      
+    }else{
+      return true
+    }    
   }
 }
 
@@ -124,6 +134,29 @@ var MemberCtrl = function ($scope, members) {
     
 }
 
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 
-
-
+// $(document).ready(function () {
+//   $('.event').popover({
+//     html: true,
+//     placement: 'right',
+//     title: "Edit Event",
+//     content: "xxx"
+//   });
+// })
+// 
