@@ -28,18 +28,32 @@ var CalendarCtrl = function ($scope, events) {
     }
     return result;     
   }    
-  
-  $scope.days = $scope.getDadysInMonth(new Date(2013, 6, 1));
-  
-  $scope.rows = [0,1,2];  
     
+  $scope.rows = [0,1,2];    
+  $scope.currentMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1);  
+  $scope.days = $scope.getDadysInMonth($scope.currentMonth);  
   $scope.events = events.events;
+  
+  $scope.nextMonth = function(){
+    // if ($scope.currentMonth.getMonth() == 11) {
+    //     $scope.currentMonth = new Date($scope.currentMonth.getFullYear() , 0, 1);
+    // } else {
+    //     $scope.currentMonth = new Date($scope.currentMonth.getFullYear(), $scope.currentMonth.getMonth() + 1, 1);
+    // }
+    $scope.currentMonth = new Date($scope.currentMonth.getFullYear(), $scope.currentMonth.getMonth() + 1, 1);    
+    $scope.days = $scope.getDadysInMonth($scope.currentMonth);      
+  };
+  
+  $scope.prevMonth = function(){
+    $scope.currentMonth =  new Date($scope.currentMonth.getFullYear(), $scope.currentMonth.getMonth() - 1, 1);
+    $scope.days = $scope.getDadysInMonth($scope.currentMonth);      
+  };
     
   $scope.$watch('events', function(newVal) {
     $scope.getEventLength();        
    }, true);
       
-  var totalDates = $scope.getNumberOfDaysInMonth(new Date(2013, 6, 1));
+  var totalDates = $scope.getNumberOfDaysInMonth($scope.currentMonth);
   var dateWidth = (1 / totalDates) * 100;
   
   $scope.getEventStyle = function(event){        

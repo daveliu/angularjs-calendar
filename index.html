@@ -38,7 +38,16 @@
     
     <div id="main">
       <div id='calendar'>
-              
+        
+        <div class="header">
+          <nav>  
+            <button data-behavior="navigate calendar_event_drag_area" data-direction="backward" class="action_button" ng-click="prevMonth();">◀</button>
+            <button data-behavior="navigate calendar_event_drag_area" data-direction="forward" class="action_button" ng-click="nextMonth();">▶</button>
+          </nav>  
+          <h1>
+            <a href="#"> {{ currentMonth.getFullYear()}} - {{ currentMonth.getMonth() }} </a></h1>          
+        </div>      
+        
         <div class="month-row" ng-repeat="event in events | orderBy:'order' ">
                                   
           <div class="events holdable" style="width:100%;">  
@@ -91,36 +100,7 @@
         
         
         <div class="days-of-month">
-          <div class="day-header">1</div>
-          <div class="day-header">2</div>
-          <div class="day-header">3</div>
-          <div class="day-header">4</div>
-          <div class="day-header">5</div>
-          <div class="day-header">6</div>
-          <div class="day-header">7</div>
-          <div class="day-header">8</div>
-          <div class="day-header">9</div>
-          <div class="day-header">10</div>
-          <div class="day-header">11</div>
-          <div class="day-header">12</div>
-          <div class="day-header">13</div>
-          <div class="day-header">14</div>
-          <div class="day-header">15</div>
-          <div class="day-header">16</div>
-          <div class="day-header">17</div>
-          <div class="day-header">18</div>
-          <div class="day-header">19</div>
-          <div class="day-header">20</div>
-          <div class="day-header">21</div>
-          <div class="day-header">22</div>
-          <div class="day-header">23</div>
-          <div class="day-header">24</div>
-          <div class="day-header">25</div>
-          <div class="day-header">26</div>
-          <div class="day-header">27</div>                    
-          <div class="day-header">28</div>
-          <div class="day-header">29</div>
-          <div class="day-header">30</div>          
+          <div class="day-header" ng-repeat="day in days">{{ day.day }}</div>          
         </div>
         
       </div>      
