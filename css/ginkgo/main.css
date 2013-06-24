@@ -79,14 +79,14 @@ div.days {
   display: table;
   table-layout: fixed;
   width: 100%;
-  min-height:50px;
+  min-height:30px;
 }
 
 div.day {
 display: table-cell;
 overflow: hidden;
 border-right: 1px dotted #dcd9d3;
-border-top: 1px dotted #dcd9d3;
+/*border-top: 1px dotted #dcd9d3;*/
 margin: 0;
 padding: 0 0 10px 0;
 line-height: normal;
@@ -132,6 +132,13 @@ width: 100%;
 float: left;
 clear: left;
 }
+div.events.holdable div.event-row .event.tag{
+  background-color: #3366CC;
+}
+div.events.holdable div.event-row .event.member{
+  background-color: #650606;
+}
+
 div.events.holdable div.spacer {
 height: 25px;
 width: 0;

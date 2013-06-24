@@ -48,56 +48,36 @@
             <a href="#"> {{ currentMonth.getFullYear()}} - {{ currentMonth.getMonth() }} </a></h1>          
         </div>      
         
-        <div class="month-row" ng-repeat="event in events | filterByMonth:currentMonth | orderBy:'order' ">
+        <div class="month-row" ng-repeat="event in eventsInMonth = (events | filterByMonth:currentMonth | orderBy:'order' ) ">
                                   
-          <div class="events holdable" style="width:100%;">  
-            
-            <div ng-switch on="event == undefined">
-              <div ng-switch-when="false">
-
-                <div  class="event-row tag" >
-                  <div  class="event  width_2 wraps_next" style="background-color: #3366CC;left:{{event.left}};width:{{event.width}};" ginkgo-draggable="true" ginkgo-resizeable="true" data-event-id="{{event.id}}" ginkgo-popover="true" tooltip="xx">
-                    <span class="event">
-                      <span class="title">{{ event.text }}</span>
-                    </span>
-                  </div>      
-                </div>
-                <div class="spacer"></div>
-                
-                <div class="timeFrames" ng-repeat="timeFrame in event.timeFrames">
-                  <div  class="event-row tag">
-                    <div  class="event  width_2 wraps_next" style="background-color: #650606;left:{{timeFrame.left}};width:{{timeFrame.width}};" ginkgo-draggable="true" ginkgo-resizeable="true"  data-timeframe-id="{{timeFrame.id}}" data-event-id="{{event.id}}">
-                      <span class="event">
-                        <span class="title">{{ timeFrame.name }}</span>
-                      </span>
-                    </div>                          
-                  </div>
-                  <div class="spacer"></div>
-                </div>
-            
-             </div>  
-           </div>  
-            
+          <div class="events holdable" style="width:100%;">                          
+            <div >
+              <div  class="event-row tag" >
+                <div  class="event  width_2 wraps_next  {{event.type}}" style="left:{{event.left}};width:{{event.width}};" ginkgo-draggable="true" ginkgo-resizeable="true" data-event-id="{{event.id}}" ginkgo-popover="true">
+                  <span class="event">
+                    <span class="title">{{ event.text }}</span>
+                  </span>
+                </div>      
+              </div>
+              <div class="spacer"></div>
+            </div>            
           </div> 
                         
           <div class="days" ginkgo-droppable="true">            
             <div class="dates" style="display:table-row;">
               <div class="day" ng-repeat="day in days" data-date="{{day.year}}-{{day.month}}-{{day.day}}">
-                <div class="event-row" style="width:100%;">              
-                  <div class="spacer" ng-repeat="timeFrame in event.timeFrames"></div>         
-                </div>
               </div>
             </div>
           </div>   
+          
         </div>
         
-        <div class="month-row no-events" ng-repeat="row in rows">
-          <div class="days" ginkgo-droppable="true">            
+        <div class="month-row no-events">
+          <div class="days" ginkgo-droppable="true"  style="min-height:{{  500 - (eventsInMonth.length * 30)}}px;">            
             <div class="day" ng-repeat="day in days" data-date="{{day.year}}-{{day.month}}-{{day.day}}">
             </div>
           </div>   
-        </div>          
-        
+        </div>       
         
         <div class="days-of-month">
           <div class="day-header" ng-repeat="day in days">{{ day.day }}</div>          
@@ -121,7 +101,7 @@
 <script src="js/vendor/bootstrap.js"></script>
 <script src="js/vendor/angular.min.js"></script>
 <!-- <script src="http://code.angularjs.org/1.0.7/angular.min.js"></script> -->
-
+<script src="js/vendor/date.js"></script>
 <script src="js/vendor/underscore-min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>

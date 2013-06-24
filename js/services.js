@@ -110,8 +110,7 @@ angular.module('ginkgo.services', []).
                       
             var highest = 1;
             for (var i = 0; i < self.events.length; i++) {
-                if (self.events[i].id > highest) highest = self.events[i].id;
-    
+                if (self.events[i].id > highest) highest = self.events[i].id;    
                 //refresh the order                
                 if (self.events[i].order >= event.order) self.events[i].order += 1;                
             }
@@ -121,60 +120,42 @@ angular.module('ginkgo.services', []).
             return event.id;
         };
         
-        self.update = function (event) {
+        self.update = function (event) {            
+            var originalEvent = self.get(event.id);
+            var originalOrder = originalEvent.order;
+            var newOrder = event.order;
+            
+            //change order
+            if ((event.order != undefined) && (originalOrder != newOrder)) {                
+              if(originalOrder < newOrder){
+                for (var i = 0; i < self.events.length; i++) {                                  
+                  if((self.events[i].order > originalOrder) && (self.events[i].order <= newOrder)){
+                    self.events[i].order -= 1;
+                  }
+                }  
+              }else{
+                for (var i = 0; i < self.events.length; i++) {                                  
+                  if((self.events[i].order >= newOrder) && (self.events[i].order < originalOrder)){
+                    self.events[i].order += 1;
+                  }
+                }  
+              }                                              
+            }  
+            
             for (var i = 0; i < self.events.length; i++) {
                 if (self.events[i].id == event.id) {                  
                     self.events[i].text = event.text;
                     self.events[i].startTime = event.startTime;
                     self.events[i].endTime = event.endTime;
                     if (event.order != undefined) {
-                      self.events[i].order = event.order;
+                      self.events[i].order = event.order;                      
                     }                      
-                    if (event.timeFrames != undefined) {
-                      self.events[i].timeFrames = event.timeFrames;                      
-                    }
-                };
+                };                
             }
-            return event.id;
-        };
-        
-        self.saveTimeFrame = function (timeFrame) {
-            if (!timeFrame.hasOwnProperty('id')) {
-                var highest = 1;
-                var event = self.get(timeFrame.eventId);
-                var timeFrames = event.timeFrames;
-                if( timeFrames == undefined){
-                  timeFrames = [];
-                }else{
-                  for (var i = 0; i < timeFrames.length; i++) {
-                      if (timeFrames[i].id > highest) highest = timeFrames[i].id;
-                  }
-                }
-
-                timeFrame.id = ++highest;
-            }
-            timeFrames.push(timeFrame);
-            event.timeFrames = timeFrames;
-            self.update(event);
             
-            return timeFrame.id;
-        };
-        self.updateTimeFrame = function (timeFrame) {          
-            var event = self.get(timeFrame.eventId);
-            var timeFrames = event.timeFrames;
-          
-            for (var i = 0; i < timeFrames.length; i++) {
-                if (timeFrames[i].id == timeFrame.id) {
-                    timeFrames[i].name = timeFrame.name;
-                    timeFrames[i].startTime = timeFrame.startTime;
-                    timeFrames[i].endTime = timeFrame.endTime;
-                };
-            }
-            event.timeFrames = timeFrames;
-            self.update(event);
-
             return event.id;
         };
+
         self.get = function (id) {
             for (var i = 0; i < self.events.length; i++) {
                 if (self.events[i].id == id)
@@ -217,8 +198,10 @@ angular.module('ginkgo.services', []).
         createPersistentProperty('events', 'ginkgoEvents', Array);
 
         if (self.events.length === 0) {
-            self.save({id:1, text:'设计', startTime: "2013-6-2", endTime: "2013-6-7", tagId: 1, order: 1 });
-            self.save({id:2, text:'开发', startTime: "2013-6-8", endTime: "2013-6-28", tagId: 2, order: 2});            
+            self.save({id:1, text:'设计', type:'tag', startTime: "2013-6-2", endTime: "2013-6-7", eventableId: 1, order: 1 });
+            self.save({id:2, text:'开发', type:'tag', startTime: "2013-6-8", endTime: "2013-6-28", eventableId: 2, order: 2});            
+            self.save({id:3, text:'Dave', type:'member', startTime: "2013-6-8", endTime: "2013-6-15", eventableId: 1, order: 3});                        
+            self.save({id:4, text:'Tony', type:'member', startTime: "2013-6-8", endTime: "2013-6-15", eventableId: 2, order: 4});                                    
         }
     });
 

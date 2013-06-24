@@ -53,6 +53,10 @@ var CalendarCtrl = function ($scope, events) {
   var dateWidth = (1 / totalDates) * 100;
   
   $scope.getEventStyle = function(event){        
+    // var startMonth = parseInt(event.startTime.split("-")[1]);   
+    // if () {
+    //   
+    // }
     var startDay = parseInt(event.startTime.split("-").pop()) - 1;
     var endDay = parseInt(event.endTime.split("-").pop()) - 1;        
     return {left: dateWidth * startDay + "%", width: (endDay - startDay) * dateWidth + "%"};
@@ -161,12 +165,16 @@ $.fn.serializeObject = function()
     return o;
 };
 
-// $(document).ready(function () {
-//   $('.event').popover({
-//     html: true,
-//     placement: 'right',
-//     title: "Edit Event",
-//     content: "xxx"
-//   });
-// })
-// 
+$(document).ready(function () {
+  $('body').click(function(){
+    $('#calendar_item_editor_singleton').hide();
+  })
+  // $('.event').on('click', function(e){
+  //   e.stopPropagation();
+  // })
+  $('#calendar_item_editor_singleton').on('click', function(e){
+    e.stopPropagation();
+  })    
+
+})
+
