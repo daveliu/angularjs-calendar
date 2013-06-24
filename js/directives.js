@@ -26,7 +26,7 @@ angular.module('ginkgo.directives', []).
           // $('.ui-state-highlight').removeClass('ui-state-highlight');          
                       
           var rowIndex = $('.month-row').index($(this).parents(".month-row"));                                
-          var text = $.trim($(ui.draggable).text());
+          var text = $.trim($(ui.draggable).find('.title').text());
           var allDays = $(this).find('.day') ;                            
           var range = scope.calculateHoverIndex(ui.helper);
           
@@ -89,7 +89,9 @@ angular.module('ginkgo.directives', []).
           var hoverColumns = $(allDays).slice(range.start - 1, range.end);  
           
           scope.$apply(function(){
-            scope.updateEvent({id: $(ui.helper).data('event-id'), text: $(ui.helper).text(), startTime: $(hoverColumns).first().data('date'), 
+            scope.updateEvent({id: $(ui.helper).data('event-id'), 
+              text: $.trim($(ui.helper).text()), 
+              startTime: $(hoverColumns).first().data('date'), 
               endTime: $(hoverColumns).last().data('date')})
           });  
         }
