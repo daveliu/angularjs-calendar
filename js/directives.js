@@ -131,6 +131,12 @@ angular.module('ginkgo.directives', []).
 }).directive('ginkgoPopover', function ($rootScope, $http, $compile) {
   return {
      link: function(scope, element, attrs) {
+
+       // $http.get('partials/calendar_body.html', {cache: true}).then(function onSuccess(template) {
+       //     // Handle response from $http promise
+       //     var compile =  $compile(template.data)(scope);            
+       //     $('#calendar .body').append(compile);          
+       // })
        
        attrs.$observe('eventId', function(value) {         
 

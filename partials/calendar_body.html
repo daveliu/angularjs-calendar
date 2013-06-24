@@ -1,0 +1,51 @@
+<div class="month">
+  <div class="month-row" ng-repeat="event in events | orderBy:'order' ">
+                          
+    <div class="events holdable" style="width:100%;">  
+    
+      <div ng-switch on="event == undefined">
+        <div ng-switch-when="false">
+
+          <div  class="event-row tag" >
+            <div  class="event  width_2 wraps_next" style="background-color: #3366CC;left:{{event.left}};width:{{event.width}};" ginkgo-draggable="true" ginkgo-resizeable="true" data-event-id="{{event.id}}" ginkgo-popover="true" tooltip="xx">
+              <span class="event">
+                <span class="title">{{ event.text }}</span>
+              </span>
+            </div>      
+          </div>
+          <div class="spacer"></div>
+        
+          <div class="timeFrames" ng-repeat="timeFrame in event.timeFrames">
+            <div  class="event-row tag">
+              <div  class="event  width_2 wraps_next" style="background-color: #650606;left:{{timeFrame.left}};width:{{timeFrame.width}};" ginkgo-draggable="true" ginkgo-resizeable="true"  data-timeframe-id="{{timeFrame.id}}" data-event-id="{{event.id}}">
+                <span class="event">
+                  <span class="title">{{ timeFrame.name }}</span>
+                </span>
+              </div>                          
+            </div>
+            <div class="spacer"></div>
+          </div>
+    
+       </div>  
+     </div>  
+    
+    </div> 
+                
+    <div class="days" ginkgo-droppable="true">            
+      <div class="dates" style="display:table-row;">
+        <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+          <div class="event-row" style="width:100%;">              
+            <div class="spacer" ng-repeat="timeFrame in event.timeFrames"></div>         
+          </div>
+        </div>
+      </div>
+    </div>   
+  </div>
+
+  <div class="month-row no-events" ng-repeat="row in rows">
+    <div class="days" ginkgo-droppable="true">            
+      <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+      </div>
+    </div>   
+  </div>          
+</div>  

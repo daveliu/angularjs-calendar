@@ -48,7 +48,7 @@
             <a href="#"> {{ currentMonth.getFullYear()}} - {{ currentMonth.getMonth() }} </a></h1>          
         </div>      
         
-        <div class="month-row" ng-repeat="event in events | orderBy:'order' ">
+        <div class="month-row" ng-repeat="event in events | filterByMonth:currentMonth | orderBy:'order' ">
                                   
           <div class="events holdable" style="width:100%;">  
             
@@ -82,7 +82,7 @@
                         
           <div class="days" ginkgo-droppable="true">            
             <div class="dates" style="display:table-row;">
-              <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+              <div class="day" ng-repeat="day in days" data-date="{{day.year}}-{{day.month}}-{{day.day}}">
                 <div class="event-row" style="width:100%;">              
                   <div class="spacer" ng-repeat="timeFrame in event.timeFrames"></div>         
                 </div>
@@ -93,7 +93,7 @@
         
         <div class="month-row no-events" ng-repeat="row in rows">
           <div class="days" ginkgo-droppable="true">            
-            <div class="day" ng-repeat="day in days" data-date="{{day.month}}-{{day.day}}">
+            <div class="day" ng-repeat="day in days" data-date="{{day.year}}-{{day.month}}-{{day.day}}">
             </div>
           </div>   
         </div>          
@@ -125,7 +125,7 @@
 <script src="js/vendor/underscore-min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
-<!-- <script src="js/ginkgo/filters.js"></script> --> 
+<script src="js/filters.js"></script> 
 <script src="js/directives.js"></script> 
 <!-- <script src="js/ginkgo/main.js"></script> -->
 </body>

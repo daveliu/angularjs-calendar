@@ -1,5 +1,5 @@
 'use strict';
-var Ginkgo = angular.module('Ginkgo', ['ginkgo.services', 'ginkgo.directives']);
+var Ginkgo = angular.module('Ginkgo', ['ginkgo.services', 'ginkgo.directives', 'ginkgo.filters']);
 
 var CalendarCtrl = function ($scope, events) {
   $scope.daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -22,6 +22,7 @@ var CalendarCtrl = function ($scope, events) {
     var numberOfDays = $scope.getNumberOfDaysInMonth(dateObject);
     for (var i = 0; i < numberOfDays; i++) {
          result.push({
+             year: dateObject.getFullYear(),
              month: dateObject.getMonth(),              
              day: (i + 1 < 10) ? "0" + (i + 1) : (i + 1)
          });
@@ -35,11 +36,6 @@ var CalendarCtrl = function ($scope, events) {
   $scope.events = events.events;
   
   $scope.nextMonth = function(){
-    // if ($scope.currentMonth.getMonth() == 11) {
-    //     $scope.currentMonth = new Date($scope.currentMonth.getFullYear() , 0, 1);
-    // } else {
-    //     $scope.currentMonth = new Date($scope.currentMonth.getFullYear(), $scope.currentMonth.getMonth() + 1, 1);
-    // }
     $scope.currentMonth = new Date($scope.currentMonth.getFullYear(), $scope.currentMonth.getMonth() + 1, 1);    
     $scope.days = $scope.getDadysInMonth($scope.currentMonth);      
   };
