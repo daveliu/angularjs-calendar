@@ -26,7 +26,7 @@ angular.module('ginkgo.directives', []).
           // $('.ui-state-highlight').removeClass('ui-state-highlight');          
                       
           var rowIndex = $('.month-row').index($(this).parents(".month-row"));                                
-          var text = $.trim($(ui.draggable).find('.title').text());
+          var text = $.trim($(ui.draggable).text());
           var allDays = $(this).find('.day') ;                            
           var range = scope.calculateHoverIndex(ui.helper);
           

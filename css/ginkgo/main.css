@@ -1,3 +1,9 @@
+html, body
+{
+    height: 100%;
+    min-height: 100%;
+}
+
 #external-events, #members {
 margin-top:20px;
 width: 150px;
@@ -84,6 +90,7 @@ div.days {
 
 div.day {
 display: table-cell;
+height:30px;
 overflow: hidden;
 border-right: 1px dotted #dcd9d3;
 /*border-top: 1px dotted #dcd9d3;*/
